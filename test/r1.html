@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تفاصيل الحزمة</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background: #222;
+      color: white;
+    }
+
+    .back-button {
+      background-color: #c2362c;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    .images {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .images img {
+      width: 150px;
+      height: 100px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: transform 0.2s;
+    }
+
+    .images img:hover {
+      transform: scale(1.05);
+    }
+
+    .download-btn {
+      background-color: #4c98af;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 18px;
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+    }
+
+    .download-btn:hover {
+      background-color: #3e7d91;
+    }
+
+    /* Lightbox Styles */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      display: none;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .arrow.left {
+      right: auto;
+      left: 20px;
+    }
+
+    .arrow.right {
+      left: auto;
+      right: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>تفاصيل حزمة HUD</h2>
+    <a href="index.html" class="back-button">عودة</a>
+  </div>
+
+  <div class="container">
+    <div class="images" id="imageList">
+      <img src="https://cdn.discordapp.com/attachments/1345438819255582841/1362187619567665394/2025-04-16_183909.png?ex=68022454&is=6800d2d4&hm=3277fab6f6b1f4404b86eb41fd51b9efdb58ac9871495a374b63a43b3bf5cb39&" alt="صورة 1" />
+      <img src="https://cdn.discordapp.com/attachments/1345438819255582841/1362187619823390941/2025-04-16_183903.png?ex=68022454&is=6800d2d4&hm=dece4268a2f2ae86fb55ac04e422d423d487a7b682e2832dc1db2ad822461b86&" alt="صورة 2" />
+      <img src="https://cdn.discordapp.com/attachments/1345438819255582841/1362187619273805855/2025-04-16_183913.png?ex=68022454&is=6800d2d4&hm=2e31b18099ec3e687b5bb4e1f1f21c50266f353a3ca06964315e427658e9defe&" alt="صورة 3" />
+      <img src="https://cdn.discordapp.com/attachments/1359604988984164574/1362391087901311036/image.png?ex=68023913&is=6800e793&hm=4bdfcba85e816979436a6f7c226052bdc313daaab2724412f7a827b7a1bfd7d3&" alt="صورة 4" />
+      <img src="https://cdn.discordapp.com/attachments/1359604988984164574/1362391126442508318/image.png?ex=6802391c&is=6800e79c&hm=1e567cad8f261749edfd73e29a42443d1844e22cfb4e86dd7c10f28de9c5660e&" alt="صورة 5" />
+    </div>
+
+    <a href="https://cdn.discordapp.com/attachments/1362365499899641956/1362366147940319312/s7-caprice12.rar?ex=680221d9&is=6800d059&hm=ddcde599e1b41e189164a5a7a52cefb67f9f32537ba1168c9336dc0bde621fef&" class="download-btn" id="downloadBtn" download>تحميل الحزمة</a>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="arrow left" onclick="prevImage()">&#10094;</span>
+    <img id="lightboxImg" src="" alt="عرض كبير" />
+    <span class="arrow right" onclick="nextImage()">&#10095;</span>
+  </div>
+
+  <script>
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const thumbnails = document.querySelectorAll('#imageList img');
+    let currentIndex = 0;
+
+    thumbnails.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        lightboxImg.src = img.src;
+        lightbox.style.display = 'flex';
+      });
+    });
+
+    function showImage(index) {
+      if (index >= 0 && index < thumbnails.length) {
+        currentIndex = index;
+        lightboxImg.src = thumbnails[currentIndex].src;
+      }
+    }
+
+    function nextImage() {
+      if (currentIndex < thumbnails.length - 1) {
+        showImage(currentIndex + 1);
+      }
+    }
+
+    function prevImage() {
+      if (currentIndex > 0) {
+        showImage(currentIndex - 1);
+      }
+    }
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+      }
+    });
+
+    // Webhook إرسال البيانات عند التحميل
+    document.getElementById("downloadBtn").addEventListener("click", async function () {
+      let ip = "غير معروف";
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        ip = data.ip;
+      } catch (e) {
+        console.error("فشل في جلب الـ IP", e);
+      }
+
+      const payload = {
+        embeds: [{
+          title: "📦 تم تحميل الحزمة",
+          color: 3447003,
+          fields: [
+            { name: "📡 IP", value: ip, inline: true },
+            { name: "👤 Discord Username", value: "غير معروف", inline: true },
+            { name: "🆔 Discord ID", value: "غير معروف", inline: true },
+          ],
+          timestamp: new Date().toISOString()
+        }]
+      };
+
+      fetch("https://discord.com/api/webhooks/1362386206943346739/PQwmg1B0soaiCh_3Sd5q15Iyr6aAvBtp07fRz4OdPInPYv7NwtlcVeaV48FFLV_SJkkb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    });
+  </script>
+
+</body>
+</html>
